@@ -457,7 +457,7 @@ func Validate(policy, oldPolicy kyvernov1.PolicyInterface, client dclient.Interf
 	}
 
 	// check for CEL expression warnings in case of CEL subrules
-	if ok, _ := vaputils.CanGenerateVAP(spec); ok && client != nil {
+	if ok, _ := vaputils.CanGenerateVAP(spec, nil); ok && client != nil {
 		resolver := &resolver.ClientDiscoveryResolver{
 			Discovery: client.GetKubeClient().Discovery(),
 		}
@@ -477,7 +477,7 @@ func Validate(policy, oldPolicy kyvernov1.PolicyInterface, client dclient.Interf
 				Name: policy.GetName(),
 			},
 		}
-		err = vaputils.BuildValidatingAdmissionPolicy(client.Discovery(), vap, policy)
+		err = vaputils.BuildValidatingAdmissionPolicy(client.Discovery(), vap, policy, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -724,6 +724,9 @@ func buildContext(rule *kyvernov1.Rule, background bool, target bool) *enginecon
 		addContextVariables(fe.Context, ctx)
 	}
 	for _, fe := range rule.Mutation.Targets {
+		addContextVariables(fe.Context, ctx)
+	}
+	for _, fe := range rule.Generation.ForEachGeneration {
 		addContextVariables(fe.Context, ctx)
 	}
 	return ctx
