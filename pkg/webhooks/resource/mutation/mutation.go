@@ -44,6 +44,7 @@ func NewMutationHandler(
 	nsLister corev1listers.NamespaceLister,
 	metrics metrics.MetricsConfigManager,
 	admissionReports bool,
+	reportsConfig reportutils.ReportingConfiguration,
 	reportsBreaker breaker.Breaker,
 ) MutationHandler {
 	return &mutationHandler{
@@ -54,6 +55,7 @@ func NewMutationHandler(
 		nsLister:         nsLister,
 		metrics:          metrics,
 		admissionReports: admissionReports,
+		reportsConfig:    reportsConfig,
 		reportsBreaker:   reportsBreaker,
 	}
 }
@@ -66,6 +68,7 @@ type mutationHandler struct {
 	nsLister         corev1listers.NamespaceLister
 	metrics          metrics.MetricsConfigManager
 	admissionReports bool
+	reportsConfig    reportutils.ReportingConfiguration
 	reportsBreaker   breaker.Breaker
 }
 
@@ -155,11 +158,13 @@ func (v *mutationHandler) applyMutations(
 	events := webhookutils.GenerateEvents(engineResponses, false, cfg)
 	v.eventGen.Add(events...)
 
-	if v.needsReports(request, policyContext.NewResource(), v.admissionReports) {
-		if err := v.createReports(ctx, policyContext.NewResource(), request, engineResponses...); err != nil {
-			v.log.Error(err, "failed to create report")
+	go func() {
+		if v.needsReports(request, v.admissionReports) {
+			if err := v.createReports(context.TODO(), policyContext.NewResource(), request, engineResponses...); err != nil {
+				v.log.Error(err, "failed to create report")
+			}
 		}
-	}
+	}()
 
 	logMutationResponse(patches, engineResponses, v.log)
 
