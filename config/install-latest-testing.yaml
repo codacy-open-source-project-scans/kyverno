@@ -175,7 +175,7 @@ data:
     [Secret,kyverno,kyverno-svc.kyverno.svc.*]
     [Secret,kyverno,kyverno-cleanup-controller.kyverno.svc.*]
   updateRequestThreshold: "1000"
-  webhooks: "[{\"namespaceSelector\":{\"matchExpressions\":[{\"key\":\"kubernetes.io/metadata.name\",\"operator\":\"NotIn\",\"values\":[\"kube-system\"]},{\"key\":\"kubernetes.io/metadata.name\",\"operator\":\"NotIn\",\"values\":[\"kyverno\"]}],\"matchLabels\":null}}]"
+  webhooks: "\n  {\"namespaceSelector\":{\"matchExpressions\":[{\"key\":\"kubernetes.io/metadata.name\",\"operator\":\"NotIn\",\"values\":[\"kube-system\"]},{\"key\":\"kubernetes.io/metadata.name\",\"operator\":\"NotIn\",\"values\":[\"kyverno\"]}],\"matchLabels\":null}}"
   webhookAnnotations: "{\"admissions.enforcer/disabled\":\"true\"}"
 ---
 apiVersion: v1
@@ -559,6 +559,14 @@ spec:
                   - name
                   type: object
                 type: array
+              deletionPropagationPolicy:
+                description: DeletionPropagationPolicy defines how resources will
+                  be deleted (Foreground, Background, Orphan).
+                enum:
+                - Foreground
+                - Background
+                - Orphan
+                type: string
               exclude:
                 description: |-
                   ExcludeResources defines when cleanuppolicy should not be applied. The exclude
@@ -1844,6 +1852,14 @@ spec:
                   - name
                   type: object
                 type: array
+              deletionPropagationPolicy:
+                description: DeletionPropagationPolicy defines how resources will
+                  be deleted (Foreground, Background, Orphan).
+                enum:
+                - Foreground
+                - Background
+                - Orphan
+                type: string
               exclude:
                 description: |-
                   ExcludeResources defines when cleanuppolicy should not be applied. The exclude
@@ -3155,6 +3171,14 @@ spec:
                   - name
                   type: object
                 type: array
+              deletionPropagationPolicy:
+                description: DeletionPropagationPolicy defines how resources will
+                  be deleted (Foreground, Background, Orphan).
+                enum:
+                - Foreground
+                - Background
+                - Orphan
+                type: string
               exclude:
                 description: |-
                   ExcludeResources defines when cleanuppolicy should not be applied. The exclude
@@ -4440,6 +4464,14 @@ spec:
                   - name
                   type: object
                 type: array
+              deletionPropagationPolicy:
+                description: DeletionPropagationPolicy defines how resources will
+                  be deleted (Foreground, Background, Orphan).
+                enum:
+                - Foreground
+                - Background
+                - Orphan
+                type: string
               exclude:
                 description: |-
                   ExcludeResources defines when cleanuppolicy should not be applied. The exclude
@@ -7933,12 +7965,12 @@ spec:
                                 description: |-
                                   PatchStrategicMerge is a strategic merge patch used to modify resources.
                                   See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                  and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                  and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                 x-kubernetes-preserve-unknown-fields: true
                               patchesJson6902:
                                 description: |-
                                   PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                 type: string
                               preconditions:
                                 description: |-
@@ -8056,12 +8088,12 @@ spec:
                           description: |-
                             PatchStrategicMerge is a strategic merge patch used to modify resources.
                             See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                            and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                            and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                           x-kubernetes-preserve-unknown-fields: true
                         patchesJson6902:
                           description: |-
                             PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                           type: string
                         targets:
                           description: Targets defines the target resources to be
@@ -13034,12 +13066,12 @@ spec:
                                     description: |-
                                       PatchStrategicMerge is a strategic merge patch used to modify resources.
                                       See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                      and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                      and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                     x-kubernetes-preserve-unknown-fields: true
                                   patchesJson6902:
                                     description: |-
                                       PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                     type: string
                                   preconditions:
                                     description: |-
@@ -13160,12 +13192,12 @@ spec:
                               description: |-
                                 PatchStrategicMerge is a strategic merge patch used to modify resources.
                                 See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                               x-kubernetes-preserve-unknown-fields: true
                             patchesJson6902:
                               description: |-
                                 PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                               type: string
                             targets:
                               description: Targets defines the target resources to
@@ -15768,6 +15800,12 @@ spec:
                   Optional. Default value is "true". The value must be set to "false" if the policy rule
                   uses variables that are only available in the admission review request (e.g. user name).
                 type: boolean
+              emitWarning:
+                default: false
+                description: |-
+                  EmitWarning enables API response warnings for mutate policy rules or validate policy rules with validationFailureAction set to Audit.
+                  Enabling this option will extend admission request processing times. The default value is "false".
+                type: boolean
               failurePolicy:
                 description: Deprecated, use failurePolicy under the webhookConfiguration
                   instead.
@@ -17787,12 +17825,12 @@ spec:
                                 description: |-
                                   PatchStrategicMerge is a strategic merge patch used to modify resources.
                                   See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                  and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                  and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                 x-kubernetes-preserve-unknown-fields: true
                               patchesJson6902:
                                 description: |-
                                   PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                 type: string
                               preconditions:
                                 description: |-
@@ -17910,12 +17948,12 @@ spec:
                           description: |-
                             PatchStrategicMerge is a strategic merge patch used to modify resources.
                             See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                            and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                            and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                           x-kubernetes-preserve-unknown-fields: true
                         patchesJson6902:
                           description: |-
                             PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                           type: string
                         targets:
                           description: Targets defines the target resources to be
@@ -23022,12 +23060,12 @@ spec:
                                     description: |-
                                       PatchStrategicMerge is a strategic merge patch used to modify resources.
                                       See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                      and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                      and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                     x-kubernetes-preserve-unknown-fields: true
                                   patchesJson6902:
                                     description: |-
                                       PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                     type: string
                                   preconditions:
                                     description: |-
@@ -23148,12 +23186,12 @@ spec:
                               description: |-
                                 PatchStrategicMerge is a strategic merge patch used to modify resources.
                                 See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                               x-kubernetes-preserve-unknown-fields: true
                             patchesJson6902:
                               description: |-
                                 PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                               type: string
                             targets:
                               description: Targets defines the target resources to
@@ -28486,12 +28524,12 @@ spec:
                                 description: |-
                                   PatchStrategicMerge is a strategic merge patch used to modify resources.
                                   See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                  and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                  and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                 x-kubernetes-preserve-unknown-fields: true
                               patchesJson6902:
                                 description: |-
                                   PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                 type: string
                               preconditions:
                                 description: |-
@@ -28609,12 +28647,12 @@ spec:
                           description: |-
                             PatchStrategicMerge is a strategic merge patch used to modify resources.
                             See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                            and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                            and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                           x-kubernetes-preserve-unknown-fields: true
                         patchesJson6902:
                           description: |-
                             PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                           type: string
                         targets:
                           description: Targets defines the target resources to be
@@ -33588,12 +33626,12 @@ spec:
                                     description: |-
                                       PatchStrategicMerge is a strategic merge patch used to modify resources.
                                       See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                      and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                      and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                     x-kubernetes-preserve-unknown-fields: true
                                   patchesJson6902:
                                     description: |-
                                       PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                     type: string
                                   preconditions:
                                     description: |-
@@ -33714,12 +33752,12 @@ spec:
                               description: |-
                                 PatchStrategicMerge is a strategic merge patch used to modify resources.
                                 See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                               x-kubernetes-preserve-unknown-fields: true
                             patchesJson6902:
                               description: |-
                                 PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                               type: string
                             targets:
                               description: Targets defines the target resources to
@@ -36323,6 +36361,12 @@ spec:
                   Optional. Default value is "true". The value must be set to "false" if the policy rule
                   uses variables that are only available in the admission review request (e.g. user name).
                 type: boolean
+              emitWarning:
+                default: false
+                description: |-
+                  EmitWarning enables API response warnings for mutate policy rules or validate policy rules with validationFailureAction set to Audit.
+                  Enabling this option will extend admission request processing times. The default value is "false".
+                type: boolean
               failurePolicy:
                 description: Deprecated, use failurePolicy under the webhookConfiguration
                   instead.
@@ -38342,12 +38386,12 @@ spec:
                                 description: |-
                                   PatchStrategicMerge is a strategic merge patch used to modify resources.
                                   See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                  and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                  and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                 x-kubernetes-preserve-unknown-fields: true
                               patchesJson6902:
                                 description: |-
                                   PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                  See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                 type: string
                               preconditions:
                                 description: |-
@@ -38465,12 +38509,12 @@ spec:
                           description: |-
                             PatchStrategicMerge is a strategic merge patch used to modify resources.
                             See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                            and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                            and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                           x-kubernetes-preserve-unknown-fields: true
                         patchesJson6902:
                           description: |-
                             PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                            See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                           type: string
                         targets:
                           description: Targets defines the target resources to be
@@ -43577,12 +43621,12 @@ spec:
                                     description: |-
                                       PatchStrategicMerge is a strategic merge patch used to modify resources.
                                       See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                      and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                      and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                                     x-kubernetes-preserve-unknown-fields: true
                                   patchesJson6902:
                                     description: |-
                                       PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                      See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                                     type: string
                                   preconditions:
                                     description: |-
@@ -43703,12 +43747,12 @@ spec:
                               description: |-
                                 PatchStrategicMerge is a strategic merge patch used to modify resources.
                                 See https://kubernetes.io/docs/tasks/manage-kubernetes-objects/update-api-object-kubectl-patch/
-                                and https://kubectl.docs.kubernetes.io/references/kustomize/patchesstrategicmerge/.
+                                and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesstrategicmerge/.
                               x-kubernetes-preserve-unknown-fields: true
                             patchesJson6902:
                               description: |-
                                 PatchesJSON6902 is a list of RFC 6902 JSON Patch declarations used to modify resources.
-                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/patchesjson6902/.
+                                See https://tools.ietf.org/html/rfc6902 and https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patchesjson6902/.
                               type: string
                             targets:
                               description: Targets defines the target resources to
@@ -51118,7 +51162,7 @@ spec:
             - --loggingFormat=text
             - --v=2
             - --omitEvents=PolicyApplied,PolicySkipped
-            - --enablePolicyException=true
+            - --enablePolicyException=false
             - --protectManagedResources=false
             - --allowInsecureRegistry=false
             - --registryCredentialHelpers=default,google,amazon,azure,github
@@ -51274,7 +51318,7 @@ spec:
             - --loggingFormat=text
             - --v=2
             - --omitEvents=PolicyApplied,PolicySkipped
-            - --enablePolicyException=true
+            - --enablePolicyException=false
             - --enableReporting=validate,mutate,mutateExisting,imageVerify,generate
             
           env:
@@ -51528,7 +51572,7 @@ spec:
             - --loggingFormat=text
             - --v=2
             - --omitEvents=PolicyApplied,PolicySkipped
-            - --enablePolicyException=true
+            - --enablePolicyException=false
             - --allowInsecureRegistry=false
             - --registryCredentialHelpers=default,google,amazon,azure,github
             - --enableReporting=validate,mutate,mutateExisting,imageVerify,generate
